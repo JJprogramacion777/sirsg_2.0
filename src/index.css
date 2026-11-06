@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-ink: #05080d;
+  --color-panel: #0b1119;
+  --color-panel-2: #111a25;
+  --color-line: #1d2a3a;
+  --color-muted: #7d8ea3;
+  --color-text: #d8e2ee;
+  --color-neon: #22d3a6;
+  --color-neon-dim: #0f7a61;
+  --color-cyan: #38bdf8;
+  --color-danger: #f43f5e;
+  --color-warn: #f59e0b;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink text-text font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgb(34 211 166 / 0.08), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgb(56 189 248 / 0.06), transparent 35%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    @apply bg-neon text-ink;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+  .card {
+    @apply rounded-xl border border-line bg-panel/80 backdrop-blur;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  /* Úsalos junto a .btn: className="btn btn-primary" */
+  .btn-primary {
+    @apply bg-neon text-ink hover:bg-neon/85;
+  }
+  .btn-ghost {
+    @apply border border-line text-text hover:border-neon hover:text-neon;
+  }
+  .btn-danger {
+    @apply border border-danger/40 bg-danger/15 text-danger hover:bg-danger/25;
+  }
+  .field {
+    @apply w-full rounded-lg border border-line bg-panel-2 px-3 py-2 text-sm text-text placeholder:text-muted/60
+      outline-none transition focus:border-neon focus:ring-2 focus:ring-neon/20;
+  }
+  /* Campos redondeados del formulario de inscripción */
+  .field-pill {
+    @apply w-full rounded-full border border-line bg-panel-2 px-5 py-2.5 text-sm text-text placeholder:text-muted/60
+      outline-none transition focus:border-neon focus:ring-2 focus:ring-neon/20;
+  }
+  select.field-pill {
+    @apply appearance-none bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237d8ea3'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+    background-size: 1.1rem;
+  }
+  textarea.field-pill {
+    @apply rounded-2xl;
+  }
+  .label {
+    @apply mb-1 block font-mono text-xs uppercase tracking-wider text-muted;
+  }
+  .tag {
+    @apply inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider;
+  }
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgb(29 42 58 / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(29 42 58 / 0.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.caret::after {
+  content: '▋';
+  margin-left: 2px;
+  color: var(--color-neon);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.6s ease-out both;
+}
+
+/* Flotación suave de las tarjetas 3D de recursos */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotateZ(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateZ(0.6deg);
+  }
+}
+
+.float-card {
+  animation: floaty 6s ease-in-out infinite;
+  box-shadow: 0 24px 50px -12px rgb(0 0 0 / 0.7);
+  border-radius: 0.75rem;
+}
+
+/* Mapa orbital de líneas: el anillo gira y los nodos giran al revés para seguir derechos */
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit-spin {
+  animation: orbit 60s linear infinite;
+}
+
+.orbit-counter {
+  animation: orbit 60s linear infinite reverse;
+}
+
+/* Línea de escaneo sobre el logo de "Quiénes somos" */
+@keyframes scan {
+  0%,
+  100% {
+    top: 0%;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  50% {
+    top: 100%;
+  }
+}
+
+.scan::after {
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-neon), transparent);
+  box-shadow: 0 0 12px var(--color-neon);
+  animation: scan 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .caret::after,
+  .float-card,
+  .orbit-spin,
+  .orbit-counter,
+  .scan::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,14 @@
+node_modules
+dist
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+
+# Credenciales del modo demo
+credenciales-admin.txt
+
+# Soluciones del juego Kali Lab (no publicar)
+respuestas.txt
